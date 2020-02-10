@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password # yes, it's password lol
+    ports:
+      - 5432:5432
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: email@email.com # easier to remember, doesn't it?
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - 8080:80
