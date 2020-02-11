@@ -15,8 +15,8 @@ CREATE DATABASE api;
 ```
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
-  name VARCHAR(30),
-  email VARCHAR(30)
+  name VARCHAR(50),
+  email VARCHAR(50)
 );
 ```
 

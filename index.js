@@ -3,6 +3,23 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 const db = require('./queries');
+const { pool } = require('./database/psql');
+const { cleanDB, testDBConnection } = require('./database/db-utill');
+
+// Test pqsl connection
+(async () => {
+  try {
+    await testDBConnection(pool);
+  } catch (err) {
+    if (err.message === 'no db') {
+      try {
+        await cleanDB();
+      } catch (err) {
+        throw err;
+      }
+    } else console.error(err);
+  }
+})();
 
 app.use(bodyParser.json());
 app.use(

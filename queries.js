@@ -1,30 +1,27 @@
-const Pool = require('pg').Pool;
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'api',
-  password: 'password',
-  port: 5431
-});
+const { pool, psqlPromise } = require('./database/psql');
+const poolPromise = psqlPromise(pool);
 
-const getUsers = (request, response) => {
-  pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).json(results.rows);
-  });
+const getUsers = async (request, response) => {
+  try {
+    const result = await poolPromise.query(
+      'SELECT * FROM users ORDER BY id ASC'
+    );
+    response.status(200).json(result.rows);
+  } catch (error) {
+    throw error;
+  }
 };
 
-const getUserById = (request, response) => {
+const getUserById = async (request, response) => {
   const id = parseInt(request.params.id);
-
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.status(200).json(results.rows);
-  });
+  try {
+    const result = await poolPromise.query(
+      `SELECT * FROM users WHERE id = ${id}`
+    );
+    response.status(200).json(result.rows);
+  } catch (error) {
+    throw error;
+  }
 };
 
 const createUser = (request, response) => {
