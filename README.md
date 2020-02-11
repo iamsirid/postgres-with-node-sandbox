@@ -5,7 +5,12 @@ npm i
 npm start
 ```
 
-Postgres 12
+```
+cd  database
+docker-compose up
+```
+
+or start local Postgres 12 with below config
 
 ```
   user: 'postgres',
